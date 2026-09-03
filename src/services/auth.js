@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { Session } from '../db/models/session.js';
+import { Session } from '../models/session.js';
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/time.js';
 
 export const createSession = async (userId) => {
