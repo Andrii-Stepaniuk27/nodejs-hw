@@ -38,6 +38,7 @@ export const loginUser = async (req, res, next) => {
     if (!isEqual) {
       throw createHttpError(401, 'Invalid email or password');
     }
+    await Session.deleteOne({ userId: user._id });
 
     const session = await createSession(user._id);
     setSessionCookies(res, session);
@@ -63,6 +64,10 @@ export const refreshUserSession = async (req, res, next) => {
 
     if (session.refreshTokenValidUntil < new Date()) {
       await Session.deleteOne({ _id: sessionId });
+      res.clearCookie('sessionId');
+      res.clearCookie('refreshToken');
+      res.clearCookie('accessToken');
+
       throw createHttpError(401, 'Session token expired');
     }
 
