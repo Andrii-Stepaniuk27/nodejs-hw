@@ -1,6 +1,4 @@
 import nodemailer from 'nodemailer';
-import handlebars from 'handlebars';
-import fs from 'fs';
 import 'dotenv/config';
 
 const transporter = nodemailer.createTransport({
@@ -14,21 +12,10 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendEmail = async (options) => {
-  let html = options.html;
-  if (!html && options.templatePath) {
-    const templateSource = fs.readFileSync(options.templatePath, 'utf8');
-    const template = handlebars.compile(templateSource);
-    html = template(options.templateData || {});
-  }
-
   return await transporter.sendMail({
     from: options.from || process.env.SMTP_FROM,
-    to: options.to,
-    subject: options.subject,
-    text: options.text,
-    html,
+    ...options,
   });
 };
 
-export const sendMail = sendEmail;
 
