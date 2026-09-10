@@ -10,6 +10,7 @@ import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import notesRouter from './routes/notesRoutes.js';
 import authRouter from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ export const setupServer = async () => {
   app.use(cookieParser());
 
   app.use('/auth', authRouter);
+  app.use('/users', userRoutes);
   app.use(notesRouter);
 
   app.use(notFoundHandler);
