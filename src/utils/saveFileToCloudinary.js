@@ -12,6 +12,9 @@ export const saveFileToCloudinary = (buffer, userId) => {
   return new Promise((resolve, reject) => {
     const uploadOptions = {
       folder: 'avatars',
+      resource_type: 'image',
+      overwrite: true,
+      use_filename: true,
     };
     if (userId) {
       uploadOptions.public_id = `avatar_${userId}`;
